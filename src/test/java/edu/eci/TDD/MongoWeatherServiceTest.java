@@ -39,6 +39,7 @@ class MongoWeatherServiceTest
     @Test
     void createWeatherReportCallsSaveOnRepository()
     {
+        weatherService = new MongoWeatherService( repository );
         double lat = 4.7110;
         double lng = 74.0721;
         GeoLocation location = new GeoLocation( lat, lng );
@@ -51,6 +52,7 @@ class MongoWeatherServiceTest
     @Test
     void weatherReportIdFoundTest()
     {
+        weatherService = new MongoWeatherService( repository );
         String weatherReportId = "awae-asd45-1dsad";
         double lat = 4.7110;
         double lng = 74.0721;
@@ -64,6 +66,7 @@ class MongoWeatherServiceTest
     @Test
     void weatherReportIdNotFoundTest()
     {
+        weatherService = new MongoWeatherService( repository );
         String weatherReportId = "dsawe1fasdasdoooq123";
         when( repository.findById( weatherReportId ) ).thenReturn( Optional.empty() );
         Assertions.assertThrows( WeatherReportNotFoundException.class, () -> {
