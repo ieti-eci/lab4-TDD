@@ -4,6 +4,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import edu.eci.TDD.controller.weather.dto.WeatherReportDto;
+
 import java.util.Date;
 import java.util.Objects;
 
@@ -24,6 +26,13 @@ public class WeatherReport
 
     Date created;
 
+    public WeatherReport(WeatherReportDto wDto) {
+    	this.geoLocation = wDto.getGeoLocation();
+        this.temperature = wDto.getTemperature();
+        this.humidity = wDto.getHumidity();
+        this.reporter = wDto.getReporter();
+        this.created = wDto.getCreated();
+    }
     public WeatherReport( GeoLocation geoLocation, double temperature, double humidity, String reporter, Date created )
     {
         this.geoLocation = geoLocation;
@@ -80,4 +89,6 @@ public class WeatherReport
     {
         return Objects.hash( id, geoLocation, temperature, humidity, reporter, created );
     }
+    
+   
 }
