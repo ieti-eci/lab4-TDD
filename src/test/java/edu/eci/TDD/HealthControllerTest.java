@@ -1,4 +1,4 @@
-package org.adaschool.tdd;
+package edu.eci.TDD;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
