@@ -1,0 +1,56 @@
+package edu.eci.TDD.controller.weather.dto;
+
+import edu.eci.TDD.repository.document.GeoLocation;
+
+import java.util.Date;
+
+public class WeatherReportDto
+{
+
+    GeoLocation geoLocation;
+
+    double temperature;
+
+    double humidity;
+
+    String reporter;
+
+    Date created;
+
+    public WeatherReportDto( GeoLocation geoLocation, double temperature, double humidity, String reporter,
+                             Date created )
+    {
+        this.geoLocation = geoLocation;
+        this.temperature = temperature;
+        this.humidity = humidity;
+        this.reporter = reporter;
+        this.created = created;
+    }
+
+    public GeoLocation getGeoLocation()
+    {
+        return geoLocation;
+    }
+
+    public double getTemperature()
+    {
+        return temperature;
+    }
+
+    public double getHumidity()
+    {
+        return humidity;
+    }
+
+    public String getReporter()
+    {
+        return reporter;
+    }
+
+    public Date getCreated()
+    {
+        return created;
+    }
+
+
+}
