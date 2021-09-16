@@ -52,7 +52,8 @@ public class MongoWeatherService
         List<WeatherReport> rta=new ArrayList<>();
         List<WeatherReport> weatherRpts=repository.findAll();
         for(WeatherReport rp:weatherRpts){
-            if(pitagoras(rp.getGeoLocation().getLat(),rp.getGeoLocation().getLng(),geoLocation.getLat(),geoLocation.getLng())<=distanceRangeInMeters){
+            if(pitagoras(rp.getGeoLocation().getLat(),rp.getGeoLocation().getLng(),geoLocation.getLat(),
+                    geoLocation.getLng())<=distanceRangeInMeters){
                 rta.add(rp);
             }
         }
@@ -62,14 +63,10 @@ public class MongoWeatherService
     @Override
     public List<WeatherReport> findWeatherReportsByName( String reporter )
     {
-
         return repository.findByReporter(reporter);
     }
-
     private double pitagoras(double lat1, double lng1,double lat2, double lng2){
-
         return Math.pow(Math.pow((lat1-lat2),2)+Math.pow((lng1-lng2),2),0.5);
-
     }
 
 

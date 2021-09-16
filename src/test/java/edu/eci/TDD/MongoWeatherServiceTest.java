@@ -11,9 +11,12 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
+import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -77,18 +80,31 @@ class MongoWeatherServiceTest
 
     @Test
     void weatherReportNameFoundTest()
-    {
-
-        weatherService = new MongoWeatherService( repository );
+    {weatherService = new MongoWeatherService( repository );
         String weatherReportId = "awae-asd45-1dsad";
         double lat = 4.7110;
         double lng = 74.0721;
         GeoLocation location = new GeoLocation( lat, lng );
-        WeatherReportDto weatherReportdto = new WeatherReportDto(location, 35f, 22f, "tester", new Date() );
-        weatherService.report(weatherReportdto);
-        List<WeatherReport> weatherReportPrueba=weatherService.findWeatherReportsByName("tester");
-        System.out.println(weatherReportPrueba);
-        Assertions.assertEquals( 1, weatherReportPrueba.size() );
+        List<WeatherReport> listaWeatherReport=new ArrayList<WeatherReport>();
+        listaWeatherReport.add(new WeatherReport( location, 35f, 22f, "tester", new Date() ));
+        when( repository.findByReporter("tester") ).thenReturn( listaWeatherReport );
+        List<WeatherReport> wrta = weatherService.findWeatherReportsByName("tester");
+        Assertions.assertEquals( wrta, listaWeatherReport );
+    }
+
+    @Test
+    void weatherReportNearLocationTest()
+    {
+        weatherService = new MongoWeatherService( repository );
+        String weatherReportId = "awae-asd45-1dsad";
+        //5
+        List<WeatherReport> listaWeatherReport=new ArrayList<WeatherReport>();
+        listaWeatherReport.add(new WeatherReport( new GeoLocation( 0, 0 ), 35f, 22f, "tester", new Date() ));//TRUE
+        listaWeatherReport.add(new WeatherReport( new GeoLocation( 5, 7 ), 35f, 22f, "tester2", new Date() ));//TRUE
+        listaWeatherReport.add(new WeatherReport( new GeoLocation( 5, -1.5 ), 35f, 22f, "tester3", new Date() ));//FALSE
+        when( repository.findAll()).thenReturn( listaWeatherReport );
+        List<WeatherReport> wrta = weatherService.findNearLocation(new GeoLocation(3,4),5);
+        Assertions.assertEquals( wrta.size(), 2 );
     }
 
 }
