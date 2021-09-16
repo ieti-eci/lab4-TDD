@@ -32,16 +32,11 @@ public class MongoWeatherService
     }
 
     @Override
-    public WeatherReport findById( String id )
-    {
-        
+    public WeatherReport findById( String id ) {
     	Optional<WeatherReport> optional = repository.findById( id );
-        if ( optional.isPresent() )
-        {
+        if ( optional.isPresent() ){
             return optional.get();
-        }
-        else
-        {
+        } else {
             throw new WeatherReportNotFoundException();
         }
     }
@@ -63,7 +58,7 @@ public class MongoWeatherService
     @Override
     public List<WeatherReport> findWeatherReportsByName( String reporter )
     {
-       
+
 
         return repository.findByReporter(reporter);
     }

@@ -1,19 +1,32 @@
 package edu.eci.TDD;
+import edu.eci.TDD.controller.weather.dto.NearByWeatherReportsQueryDto;
+import edu.eci.TDD.controller.weather.dto.WeatherReportDto;
+import edu.eci.TDD.repository.WeatherReportRepository;
 import edu.eci.TDD.repository.document.GeoLocation;
 import edu.eci.TDD.repository.document.WeatherReport;
+import edu.eci.TDD.service.MongoWeatherService;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.ResponseEntity;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest( webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT )
+@TestInstance( TestInstance.Lifecycle.PER_CLASS )
 public class WeatherReportControllerTest {
 
     @LocalServerPort
@@ -22,29 +35,56 @@ public class WeatherReportControllerTest {
     @Autowired
     private TestRestTemplate restTemplate;
 
+
+
+    @MockBean
+    WeatherReportRepository repository;
+
     @Test
     public void createTest() throws Exception {
-        //WeatherReport wr = new WeatherReport(new GeoLocation(0, 0), 35f, 22f, "tester", new Date());
-        assertThat(
-                this.restTemplate.getForObject("http://localhost:" + port + "/v1/weather", WeatherReport.class));
+
+        WeatherReportDto wrDto = new WeatherReportDto(new GeoLocation(0, 0), 35f, 22f, "tester", new Date());
+        WeatherReport wr =this.restTemplate.postForObject("http://localhost:" + port + "/v1/weather", wrDto,WeatherReport.class );
+        verify( repository ).save( any( WeatherReport.class ) );
+
+
+
     }
     @Test
     public void findByIdTest() throws Exception {
-        assertThat(
-                this.restTemplate.getForObject( "http://localhost:" + port + "/v1/weather/123ff", WeatherReport.class ) );
+
+        String weatherReportId="abcde";
+        WeatherReport wr= new WeatherReport(new GeoLocation(0, 0), 35f, 22f, "tester", new Date());
+        when( repository.findById( weatherReportId ) ).thenReturn( Optional.of( wr ) );
+        WeatherReport wr2 = this.restTemplate.getForObject("http://localhost:" + port + "/v1/weather/abcde", WeatherReport.class);
+        Assertions.assertEquals( wr.getReporter(), wr2.getReporter() );
+
+
     }
     @Test
     public void findNearByReportsTest() throws Exception {
-        List<WeatherReport> ls=new ArrayList<WeatherReport>();
-        assertThat(
-                this.restTemplate.getForObject( "http://localhost:" + port + "/v1/weather/nearby", List.class ) ).isEqualTo(ls);
+        //5
+        List<WeatherReport> listaWeatherReport=new ArrayList<WeatherReport>();
+        listaWeatherReport.add(new WeatherReport( new GeoLocation( 0, 0 ), 35f, 22f, "tester", new Date() ));//TRUE
+        listaWeatherReport.add(new WeatherReport( new GeoLocation( 5, 7 ), 35f, 22f, "tester2", new Date() ));//TRUE
+        listaWeatherReport.add(new WeatherReport( new GeoLocation( 5, -1.5 ), 35f, 22f, "tester3", new Date() ));//FALSE
+        when( repository.findAll()).thenReturn( listaWeatherReport );
+        NearByWeatherReportsQueryDto nQuery=new NearByWeatherReportsQueryDto(new GeoLocation(3,4),5);
+
+        assertThat(this.restTemplate.postForObject("http://localhost:" + port + "/v1/weather/nearby", nQuery, List.class).size()).isEqualTo(2);
+
     }
 
     @Test
     public void findByReporterIdTest() throws Exception {
-        List<WeatherReport> ls=new ArrayList<WeatherReport>();
-        assertThat(
-                this.restTemplate.getForObject( "http://localhost:" + port + "/v1/weather/reporter/123ff", List.class ) ).isEqualTo(ls);
+        double lat = 4.7110;
+        double lng = 74.0721;
+        GeoLocation location = new GeoLocation( lat, lng );
+        List<WeatherReport> listaWeatherReport=new ArrayList<>();
+        listaWeatherReport.add(new WeatherReport( location, 35f, 22f, "tester", new Date() ));
+        when( repository.findByReporter("tester") ).thenReturn( listaWeatherReport );
+        List<WeatherReport> wrl = this.restTemplate.getForObject("http://localhost:" + port + "/v1/weather/reporter/tester", List.class);
+        Assertions.assertEquals(wrl.get(0).getReporter(), listaWeatherReport.get(0).getReporter());
     }
 
 }

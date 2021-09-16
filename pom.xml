@@ -17,6 +17,8 @@
 		<java.version>1.8</java.version>
 	</properties>
 	<dependencies>
+
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-mongodb</artifactId>
@@ -41,6 +43,15 @@
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<scope>2.11.4</scope>
+		</dependency>
+
+
+
 	</dependencies>
 
 	<build>

@@ -18,6 +18,7 @@ import java.util.List;
 @RequestMapping( "/v1/weather" )
 public class WeatherReportController
 {
+
     private final WeatherService weatherService;
 
     public WeatherReportController( @Autowired WeatherService weatherService )

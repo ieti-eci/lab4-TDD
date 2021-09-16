@@ -8,6 +8,7 @@ import edu.eci.TDD.controller.weather.dto.WeatherReportDto;
 
 import java.util.Date;
 import java.util.Objects;
+import java.util.UUID;
 
 @Document
 public class WeatherReport
@@ -40,6 +41,10 @@ public class WeatherReport
         this.humidity = humidity;
         this.reporter = reporter;
         this.created = created;
+    }
+
+    public String getId() {
+        return id;
     }
 
     public GeoLocation getGeoLocation()

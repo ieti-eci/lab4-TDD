@@ -20,6 +20,7 @@ public class WeatherReportDto
     public WeatherReportDto( GeoLocation geoLocation, double temperature, double humidity, String reporter,
                              Date created )
     {
+
         this.geoLocation = geoLocation;
         this.temperature = temperature;
         this.humidity = humidity;
