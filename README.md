@@ -14,6 +14,15 @@ start by runing existing test and then write the code to pass the test.
 ### Part 2: Write to the code to pass the test
 
 1. Implement the code so your tests pass.
+
+##### Report
+
+![](img/14.JPG)
+
+##### findById
+
+![](img/15.JPG)
+
 2. Run your test again and verify that they all pass.
 
 ![](img/6.JPG)
@@ -57,3 +66,23 @@ start by runing existing test and then write the code to pass the test.
 ![](img/13.JPG)
 
 5. Implement 1 unit test for each method inside the *WeatherReportController*.
+
+##### createTest
+
+![](img/17.JPG)
+
+##### findByIdTest
+
+![](img/18.JPG)
+
+##### findByReportsIdTest
+
+![](img/19.JPG)
+
+##### findByReportsNameTest
+
+![](img/20.JPG)
+
+##### Correctos
+
+![](img/16.JPG)
