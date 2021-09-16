@@ -26,7 +26,9 @@ public class WeatherReport
     String reporter;
 
     Date created;
-
+    public WeatherReport() {
+    	
+    }
     public WeatherReport(WeatherReportDto wDto) {
     	this.geoLocation = wDto.getGeoLocation();
         this.temperature = wDto.getTemperature();
@@ -94,6 +96,25 @@ public class WeatherReport
     {
         return Objects.hash( id, geoLocation, temperature, humidity, reporter, created );
     }
+	public void setId(String id) {
+		this.id = id;
+	}
+	public void setGeoLocation(GeoLocation geoLocation) {
+		this.geoLocation = geoLocation;
+	}
+	public void setTemperature(double temperature) {
+		this.temperature = temperature;
+	}
+	public void setHumidity(double humidity) {
+		this.humidity = humidity;
+	}
+	public void setReporter(String reporter) {
+		this.reporter = reporter;
+	}
+	public void setCreated(Date created) {
+		this.created = created;
+	}
+    
     
    
 }
