@@ -15,6 +15,7 @@ import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -72,6 +73,22 @@ class MongoWeatherServiceTest
         Assertions.assertThrows( WeatherReportNotFoundException.class, () -> {
             weatherService.findById( weatherReportId );
         } );
+    }
+
+    @Test
+    void weatherReportNameFoundTest()
+    {
+
+        weatherService = new MongoWeatherService( repository );
+        String weatherReportId = "awae-asd45-1dsad";
+        double lat = 4.7110;
+        double lng = 74.0721;
+        GeoLocation location = new GeoLocation( lat, lng );
+        WeatherReportDto weatherReportdto = new WeatherReportDto(location, 35f, 22f, "tester", new Date() );
+        weatherService.report(weatherReportdto);
+        List<WeatherReport> weatherReportPrueba=weatherService.findWeatherReportsByName("tester");
+        System.out.println(weatherReportPrueba);
+        Assertions.assertEquals( 1, weatherReportPrueba.size() );
     }
 
 }
