@@ -23,23 +23,23 @@ start by runing existing test and then write the code to pass the test.
 1. Write 1 unit test for each method of the *WeatherService* to verify the correct implementation on the *
    MongoWeatherService*.
 
-# Test ReportNearLocation
+##### Test ReportNearLocation
 
 ![](img/10.JPG)
 
-# Metodo ReportNearLocation
+##### Metodo ReportNearLocation
 
 ![](img/9.JPG)
 
-# Test findWeaterReportByName
+##### Test findWeaterReportByName
 
 ![](img/7.JPG)
 
-# Metodo findWeaterReportByName
+##### Metodo findWeaterReportByName
 
 ![](img/8.JPG)
 
-# Correctos
+##### Correctos
 
 ![](img/11.JPG)
 
