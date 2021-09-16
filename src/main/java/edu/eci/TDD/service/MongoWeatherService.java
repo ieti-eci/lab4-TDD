@@ -63,6 +63,8 @@ public class MongoWeatherService
     @Override
     public List<WeatherReport> findWeatherReportsByName( String reporter )
     {
+       
+
         return repository.findByReporter(reporter);
     }
     private double pitagoras(double lat1, double lng1,double lat2, double lng2){
